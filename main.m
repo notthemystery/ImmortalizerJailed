@@ -81,7 +81,6 @@ static void setup() {
         }
 
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)prefsChanged, CFSTR("com.sergy.immortalizerjailed.updateprefs"), NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
-        [[FloatingButtonWindow sharedInstance] showButton];
     });
 }
 
