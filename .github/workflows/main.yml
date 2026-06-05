@@ -1,0 +1,35 @@
+name: build and upload MuffinStore
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup theos
+        uses: Randomblock1/theos-action@v1
+
+      - name: Switch Xcode version
+        run: |
+          sudo xcode-select -s /Applications/Xcode_16.2.0.app/Contents/Developer
+
+      - name: Build and Package MuffinStore
+        run: |
+          cd $GITHUB_WORKSPACE
+          FINALPACKAGE=1 gmake clean package
+          mkdir -p framework_package
+          cp -r theos/lib/*.dylib ./
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MuffinStore Framework
+          path: ./*.dylib
